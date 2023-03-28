@@ -1,5 +1,5 @@
 const en = require('./en');
-const ptBR = require('./pt-BR');
+const ptBR = require('./pt');
 const _get = require('lodash/get');
  
 
@@ -8,7 +8,7 @@ const _get = require('lodash/get');
  */
 const languages = {
   en: en,
-  'pt-BR': ptBR,
+  pt: ptBR,
  
 };
 
@@ -44,6 +44,7 @@ const i18nExists = (languageCode, key) => {
  * Returns the translation based on the key.
  */
 const i18n = (languageCode, key, ...args) => {
+  console.log(languageCode, key)
   const dictionary =
     languages[languageCode] || languages['en'];
   const message = _get(dictionary, key);

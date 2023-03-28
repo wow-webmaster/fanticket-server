@@ -7,14 +7,15 @@ const createUser = async (data) => {
         return user;
     }
     catch(err){
+        console.log(err);
         return null;
     }
     
 }
 
-const getUser = async({phone = '', email = ''})=>{
+const getUser = async({fullName = '', email = ''})=>{
     try{
-        const user = await UserModel.findOne({$or:[{phone},{email}]});
+        const user = await UserModel.findOne({$or:[{email},{fullName}]});
         return user;
     }
     catch(err){

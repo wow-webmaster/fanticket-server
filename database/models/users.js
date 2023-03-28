@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 // Create Schema
 const UserShema = new mongoose.Schema({
+    avatar:{
+        type:String,
+        default:"/uploads/avatar/default.png"
+    },
     status:{
         type:String,
         default:'active'
@@ -18,7 +22,11 @@ const UserShema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    fullname: {
+    phoneVerification:{
+        type:Boolean,
+        default:false
+    },
+    fullName: {
         type: String,
         default: "",
     },
@@ -30,30 +38,39 @@ const UserShema = new mongoose.Schema({
         type: String,
         default: "",
     },
-    cnpj: {
-        type: String,
-        default: "",
-    },
-    businessRole: {
-        type: String,
-        default: "personal",
-    },
+    
     siteRole: {
         type: String,
-        default: "client",
+        default: "user",
     },
-    companyId: {
-        type: String,
+    
+    registered: {
+        type: Date,
+        default: new Date(),
     },
-    regDate: {
-        type: String,
-        default: "",
+    updated:{
+        type:Date,
     },
-    tokens: {
-        type: Array,
-        default: [
-            { tokenId: '', amount: 0, lastUpdated: '', created: '', }
-        ]
+    social:{
+        type:Object,
+        default:{
+            facebook:"",
+            twitter:"",
+            youtube:"",
+        }
+    },
+    address:{
+        type:String,
+        default:''
+    },
+    city:{
+        type:String,
+        default:""
+    },
+    state:{
+        type:String,
+        default:''
     }
+
 });
 module.exports = mongoose.model("user", UserShema);

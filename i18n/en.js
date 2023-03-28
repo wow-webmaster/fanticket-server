@@ -7,12 +7,15 @@ const en = {
     title:""
   },
   error:{
-    err400:"",
-    err401:"",
-    err403:"",
-    err412:"Already exist ",
-    err500:"Interanl server error",
+    "400":"",
+    "500":"",
+    "403":"",
+    "412":"Already exist ",
+    "500":"Interanl server error",
   },
+  success:{
+    "200":"Success"
+  }
 };
 
 module.exports = en;

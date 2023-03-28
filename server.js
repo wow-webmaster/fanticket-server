@@ -11,9 +11,7 @@ const { databaseInit } = require("./database/connection");
 
 // api routers
 const auth = require("./api/routes/auth");
-const common = require("./api/routes/common");
-const token = require("./api/routes/token");
-const company = require("./api/routes/company");
+const event =  require("./api/routes/event");
 
 const app = express();
 // Bodyparser middleware
@@ -40,6 +38,7 @@ require("./config/passport")(passport);
 
 // routes
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/event", event);
 
 app.use(express.static(assetFolder));
 app.use("*", express.static(assetFolder));

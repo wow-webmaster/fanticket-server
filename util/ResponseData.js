@@ -56,4 +56,26 @@ module.exports = class ResponseData {
     }
     return res.status(404).json(idata);
   }
+
+  static alreadyExist(res, msg, data = null){
+    var idata = {
+      status: 201,
+      message: msg,
+    };
+    if (data) {
+      idata = { ...idata, data: data };
+    }
+    return res.status(201).json(idata);
+  }
+  
+  static validateError(res,msg, data=null){
+    var idata = {
+      status: 403,
+      message: msg,
+    };
+    if (data) {
+      idata = { ...idata, data: data };
+    }
+    return res.status(403).json(idata);
+  }
 };
