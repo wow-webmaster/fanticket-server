@@ -51,7 +51,7 @@ const ticketStorage = multer.diskStorage({
 });
 
 
-var uploadAvatar = multer({
+var avatarUploader = multer({
     storage: avatarStorage,
     limits: {
         fileSize: 1024 * 1024 * 10, // 10000000 Bytes = 10 MB
@@ -66,7 +66,7 @@ var uploadAvatar = multer({
     },
 
 });
-var uploadEvent = multer({
+var eventUploader = multer({
     storage: eventStorage,
     limits: {
         fileSize: 1024 * 1024 * 10, // 10000000 Bytes = 10 MB
@@ -81,16 +81,16 @@ var uploadEvent = multer({
     },
 
 });
-var uploadTicket = multer({
+var ticketUploader = multer({
     storage: ticketStorage,
     limits: {
         fileSize: 1024 * 1024 * 10, // 10000000 Bytes = 10 MB
     },
     fileFilter(req, file, cb) {
-        if (!file.originalname.toLowerCase().match(/\.(png|jpg|jpeg|bmp|webp)$/)) {
-            // upload only png and jpg format
+        if (!file.originalname.toLowerCase().match(/\.(png|jpg|jpeg|bmp|webp|pdf|pkpass)$/)) {
+            // upload pdf | pkpassfile
 
-            return cb(new Error("Please upload a Image"));
+            return cb(new Error("Please upload a pdf or pkpass file"));
         }
         cb(null, true);
     },
@@ -101,7 +101,7 @@ var uploadTicket = multer({
 // --------------------------------------
 
 module.exports = {
-    uploadAvatar,
-    uploadEvent,
-    uploadTicket
+    avatarUploader,
+    eventUploader,
+    ticketUploader
 };

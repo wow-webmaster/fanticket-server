@@ -13,6 +13,7 @@
     "412":"Already exist with {0}",
     "500":"Interanl server error",
     "db":"Database operation error",
+    "upload":"File upload error"
   },
   success:{
     "200":"Success"
