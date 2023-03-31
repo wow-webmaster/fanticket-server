@@ -1,3 +1,4 @@
+const fs = require("fs");
 const {
   saveNewTicket,
   saveTicketEventQuery,
@@ -6,6 +7,7 @@ const {
 } = require("../../../database/queries/ticketQuery");
 const { i18n } = require("../../../i18n");
 const ResponseData = require("../../../util/ResponseData");
+const { loadPdfFile } = require("../../../util/TicketPdfParser");
 
 const saveTicketFile = async (req, res) => {
   try {
@@ -16,11 +18,27 @@ const uploadTicket = async (req, res) => {
     const ticket = await getTicketByIdQuery(req.body.ticketId);
 
     if (req.file && ticket != null) {
-      ticket.uploadedFile = req.file.path;
-      ticket.ticketSavedStep = 1;
-      ticket.originFile = req.body.originFile;
-      await ticket.save();
-      return ResponseData.ok(res, "", ticket);
+      // pdf file check
+      const result = await loadPdfFile({ file: req.file });
+      if (result.parse && result.data != null) {
+        ticket.originPrice = result.data.originPrice;
+        ticket.seat = result.data.seat;
+        ticket.qrcode = result.data.qrcode;
+        ticket.uploadedFile = req.file.path;
+        ticket.ticketSavedStep = 1;
+        ticket.originFile = req.body.originFile;
+        await ticket.save();
+        return ResponseData.ok(res, "", ticket);
+      } else {
+        const path = `${__dirname}/../../../${req.file.path}`;
+        try {
+          fs.unlinkSync(path);
+        } catch (err) {
+          console.log(err);
+          console.log("could not unlink file");
+        }
+        return ResponseData.error(res, i18n(req.language, "error.parse-pdf"));
+      }
     } else {
       return ResponseData.error(res, i18n(req.language, "error.upload"));
     }

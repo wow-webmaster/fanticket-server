@@ -42,7 +42,7 @@ const TicketSchema = new mongoose.Schema({
     type: String,
     default: "",
   },
-  originFile:{
+  originFile: {
     type: String,
     default: "",
   },
@@ -54,5 +54,13 @@ const TicketSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  qrcode: {
+    type: String,
+    default: "",
+  },
+  seat:{
+    type:String,
+    default:""
+  }
 });
 module.exports = mongoose.model("ticket", TicketSchema);

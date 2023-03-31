@@ -13,7 +13,8 @@
     "412":"Already exist with {0}",
     "500":"Interanl server error",
     "db":"Database operation error",
-    "upload":"File upload error"
+    "upload":"File upload error",
+    "parse-pdf":"PDF parse error, upload origin pdf file received from provider",
   },
   success:{
     "200":"Success"
