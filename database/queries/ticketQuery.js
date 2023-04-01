@@ -2,7 +2,19 @@ const { default: mongoose } = require("mongoose");
 const EventModel = require("../models/event");
 const TicketModel = require("../models/ticket");
 
-const saveTicketEventQuery = async ({ uploader, eventId, eventTypeId }) => {
+const finializeTicketQuery = async ({ ticketId }) => {
+  try {
+    await TicketModel.findByIdAndUpdate(ticketId, { status: "inprogress" });
+  } catch (err) {
+    throw new Error(err);
+  }
+};
+const saveTicketEventQuery = async ({
+  uploader,
+  eventId,
+  eventTypeId,
+  dateTime,
+}) => {
   try {
     await TicketModel.findOneAndUpdate(
       { uploader: mongoose.Types.ObjectId(uploader), status: "building" },
@@ -11,6 +23,8 @@ const saveTicketEventQuery = async ({ uploader, eventId, eventTypeId }) => {
           uploader: mongoose.Types.ObjectId(uploader),
           eventId: mongoose.Types.ObjectId(eventId),
           eventTypeId: mongoose.Types.ObjectId(eventTypeId),
+          dateTime: new Date(dateTime),
+          ticketSavedStep: 1,
         },
       },
       { upsert: true, new: true }
@@ -19,6 +33,17 @@ const saveTicketEventQuery = async ({ uploader, eventId, eventTypeId }) => {
   } catch (err) {
     console.log(err);
     return { success: false, err };
+  }
+};
+const saveTicketNoteQuery = async ({ ticketId, note }) => {
+  try {
+    return await TicketModel.findByIdAndUpdate(
+      ticketId,
+      { note, ticketSavedStep: 3 },
+      { new: true }
+    );
+  } catch (err) {
+    throw new Error(err);
   }
 };
 const getSavedTicketQuery = async ({ uploader }) => {
@@ -39,6 +64,7 @@ const getSavedTicketQuery = async ({ uploader }) => {
         $match: {
           uploader: mongoose.Types.ObjectId(uploader),
           status: "building",
+          dateTime: { $gte: new Date() },
         },
       },
     ]);
@@ -53,8 +79,22 @@ const getSavedTicketQuery = async ({ uploader }) => {
 const getTicketByIdQuery = async (id) => {
   return await TicketModel.findById(id);
 };
+const saveTicketPriceQuery = async ({ ticketId, sellPrice, qrcode, seat }) => {
+  try {
+    return await TicketModel.findByIdAndUpdate(
+      ticketId,
+      { sellPrice, ticketSavedStep: 4, qrcode, seat },
+      { new: true }
+    );
+  } catch (err) {
+    throw new Error(err);
+  }
+};
 module.exports = {
   saveTicketEventQuery,
   getSavedTicketQuery,
-  getTicketByIdQuery
+  getTicketByIdQuery,
+  saveTicketNoteQuery,
+  saveTicketPriceQuery,
+  finializeTicketQuery
 };

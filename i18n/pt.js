@@ -17,7 +17,8 @@
     "parse-pdf":"PDF parse error, upload origin pdf file received from provider",
   },
   success:{
-    "200":"Success"
+    "200":"Success",
+    "reset_ticket":"Reset Ticket, File & saved data removed from the system."
   },
   auth:{
     "wrong_password":"Wrong password",

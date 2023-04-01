@@ -2,6 +2,10 @@ const mongoose = require("mongoose");
 
 // Create Schema
 const TicketSchema = new mongoose.Schema({
+  avatar:{
+    type:String,
+    default:"",
+  },
   status: {
     type: String,
     default: "building",
@@ -61,6 +65,13 @@ const TicketSchema = new mongoose.Schema({
   seat:{
     type:String,
     default:""
+  },
+  note:{
+    type:String,
+    default:""
+  },
+  dateTime:{
+    type:Date,
   }
 });
 module.exports = mongoose.model("ticket", TicketSchema);

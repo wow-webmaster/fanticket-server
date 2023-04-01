@@ -17,7 +17,21 @@ const avatarStorage = multer.diskStorage({
         // path.extname get the uploaded file extension
     },
 });
-
+const ticketAvatarStorage = multer.diskStorage({
+    // Destination to store image
+    destination: "./uploads/ticket_avatar",
+    filename: (req, file, cb) => {
+        cb(
+            null,
+            file.fieldname +
+            "-c" +
+            Date.now() +
+            path.extname(file.originalname)
+        );
+        // file.fieldname is name of the field (image)
+        // path.extname get the uploaded file extension
+    },
+});
 const eventStorage = multer.diskStorage({
     // Destination to store image
     destination: "./uploads/event",
@@ -97,11 +111,27 @@ var ticketUploader = multer({
 
 });
 
+var ticketAvatarUploader = multer({
+    storage: ticketAvatarStorage,
+    limits: {
+        fileSize: 1024 * 1024 * 10, // 10000000 Bytes = 10 MB
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.toLowerCase().match(/\.(png|jpg|jpeg|bmp|webp|pdf|pkpass)$/)) {
+            // upload pdf | pkpassfile
+
+            return cb(new Error("Please upload a pdf or pkpass file"));
+        }
+        cb(null, true);
+    },
+
+});
 
 // --------------------------------------
 
 module.exports = {
     avatarUploader,
     eventUploader,
-    ticketUploader
+    ticketUploader,
+    ticketAvatarUploader
 };

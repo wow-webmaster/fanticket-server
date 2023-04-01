@@ -13,6 +13,7 @@ const { databaseInit } = require("./database/connection");
 const auth = require("./api/routes/auth");
 const event =  require("./api/routes/event");
 const ticket =  require("./api/routes/ticket");
+const { ParseTextFromImage } = require("./util/TicketImageParser");
 
 const app = express();
 // Bodyparser middleware
@@ -53,7 +54,7 @@ const port = process.env.PORT || 5000; //
 databaseInit().then(() => {
     const server = app.listen(port, () => {
         console.log(`Server up and running on port ${port} !`)
-
+        // ParseTextFromImage({file:`${__dirname}/uploads/ticket/Untitled.png`});
     });
 }).catch(err => {
 
