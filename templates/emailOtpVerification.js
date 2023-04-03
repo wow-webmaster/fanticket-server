@@ -32,10 +32,10 @@ const emailOtpVerificationTemplate = (otp) => {
           <body>
               <div class="email_container">
                   <h2>Verify your email address</h2>
-                  <p>Thanks for starting the new AWS account creation process. We want to make sure it's really you. Please enter the following verification code when prompted. If you don’t want to create an account, you can ignore this message.</p>
+                  <p>Thanks for starting the new Fanticket account creation process. We want to make sure it's really you. Please enter the following verification code when prompted. If you don’t want to create an account, you can ignore this message.</p>
                   <center>
-                    <h6><b>Verification Code</b></h6><br/>
-                    <h3>${otp}</h3>
+                    <h4><b>Verification Code</b></h4>
+                    <h2>${otp}</h2>
                   </center>
                   <hr />
                   <p>

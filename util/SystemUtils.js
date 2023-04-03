@@ -16,7 +16,7 @@ const transferMail = async (to, subject, message) => {
         port: process.env.SMTP_PORT,
         auth: {
           user: process.env.SMTP_USER,
-          pass: "Ujks9b1zOYLRmEf3",
+          pass: process.env.SMTP_PASSWORD,
         },
       }
     );
