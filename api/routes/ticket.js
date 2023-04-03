@@ -11,6 +11,7 @@ const {
   reqStringValidator,
   reqNumberValidator,
 } = require("../../util/Validation");
+
 const ticketController = require("../controllers/events/ticket");
 
 router.post(
@@ -18,6 +19,12 @@ router.post(
   languageMiddleware,
   authenticate,
   ticketController.saveTicketEvent
+);
+router.post(
+  "/save-ticket-event-no-type",
+  languageMiddleware,
+  authenticate,
+  ticketController.saveTicketEventWithoutTypeId
 );
 router.get(
   "/saved-ticket",

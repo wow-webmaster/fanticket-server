@@ -22,6 +22,27 @@ const getEventDetailQuery = async ({ eventId }) => {
         },
       },
       { $match: { _id: mongoose.Types.ObjectId(eventId) } },
+      {
+        $project: {
+          _id: "$$ROOT._id",
+          cover:1,
+          name:1,
+          facebookUrl:1,
+          place:1,  
+          dateTime:1,
+          containsTime:1,
+          types:1,
+          ended:1,
+          canceled:1,
+          tickets: {
+            $filter: {
+              input: "$tickets",
+              as: "ticket",
+              cond: { $ne: ["$$ticket.status", "building"] },
+            },
+          },
+        },
+      },
     ]);
     return events;
   } catch (err) {

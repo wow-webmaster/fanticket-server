@@ -24,7 +24,7 @@ const saveTicketEventQuery = async ({
           eventId: mongoose.Types.ObjectId(eventId),
           eventTypeId: mongoose.Types.ObjectId(eventTypeId),
           dateTime: new Date(dateTime),
-          ticketSavedStep: 1,
+          ticketSavedStep: eventTypeId ? 1 : 0,
         },
       },
       { upsert: true, new: true }
@@ -77,7 +77,7 @@ const getSavedTicketQuery = async ({ uploader }) => {
   }
 };
 
-const getTicketDetailQuery = async({ticketId})=>{
+const getTicketDetailQuery = async ({ ticketId }) => {
   try {
     const ticket = await TicketModel.aggregate([
       {
@@ -93,7 +93,8 @@ const getTicketDetailQuery = async({ticketId})=>{
       },
       {
         $match: {
-          _id:mongoose.Types.ObjectId(ticketId)
+          _id: mongoose.Types.ObjectId(ticketId),
+          
         },
       },
     ]);
@@ -104,7 +105,7 @@ const getTicketDetailQuery = async({ticketId})=>{
     console.log(err);
     return { success: false, err };
   }
-}
+};
 const getTicketByIdQuery = async (id) => {
   return await TicketModel.findById(id);
 };
@@ -126,5 +127,5 @@ module.exports = {
   saveTicketNoteQuery,
   saveTicketPriceQuery,
   finializeTicketQuery,
-  getTicketDetailQuery
+  getTicketDetailQuery,
 };

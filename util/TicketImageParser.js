@@ -4,7 +4,7 @@ const ParseTextFromImage = ({ file }) => {
   try {
     Tesseract.recognize(file, "eng")
       .then((res) => {
-        console.log(res);
+        console.log(res.data.text);
       })
       .catch((err) => {
         console.log(err);

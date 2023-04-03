@@ -43,6 +43,7 @@ const uploadTicket = async (req, res) => {
     if (req.file && ticket != null) {
       // pdf file check
       const result = await loadPdfFile({ file: req.file });
+      
       if (result.parse && result.data != null) {
         ticket.originPrice = result.data.originPrice;
         ticket.dateTime = result.data.dateTime;
@@ -153,7 +154,7 @@ const saveTicketEvent = async (req, res) => {
       eventId,
       eventTypeId: typeId,
       uploader,
-      dateTime: new Date(Date.now() + 3600 * 24 * 30 * 1000),
+      dateTime: new Date(Date.now() + 3600 * 24 * 30 * 1000), // will update from the ticket
     });
     if (result.success) {
       return ResponseData.ok(res, "", result.ticket);
@@ -166,7 +167,27 @@ const saveTicketEvent = async (req, res) => {
     return ResponseData.error(res, i18n(req.language, "error.500"), err);
   }
 };
+const saveTicketEventWithoutTypeId = async (req, res) => {
+  try {
+    const { eventId } = req.body;
+    const uploader = req.user?._id;
 
+    const result = await saveTicketEventQuery({
+      eventId,
+      uploader,
+      dateTime: new Date(Date.now() + 3600 * 24 * 30 * 1000), // will update from the ticket
+    });
+    if (result.success) {
+      return ResponseData.ok(res, "", result.ticket);
+    } else
+      return ResponseData.error(res, i18n(req.language, "error.500"), {
+        err: result.err,
+      });
+  } catch (err) {
+    console.log(err);
+    return ResponseData.error(res, i18n(req.language, "error.500"), err);
+  }
+};
 const saveTicketNote = async (req, res) => {
   try {
     const { ticketId, note } = req.body;
@@ -178,6 +199,7 @@ const saveTicketNote = async (req, res) => {
 };
 module.exports = {
   saveTicketEvent,
+  saveTicketEventWithoutTypeId,
   getSavedTicket,
   saveTicketFile,
   uploadTicket,
