@@ -7,18 +7,18 @@ const MAIL_TITLE = {
 
 const transferMail = async (to, subject, message) => {
   const API_KEY = process.env.SENDIN_BLUE_SMTP_KEY;
+  const config = {
+    host: process.env.SMTP_SERVER,
+    port: process.env.SMTP_PORT,
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: "Ujks9b1zOYLRmEf3",
+    },
+  };
   try {
     const transport = nodemailer.createTransport(
       // new Transport({apiKey:API_KEY})
-
-      {
-        host: process.env.SMTP_SERVER,
-        port: process.env.SMTP_PORT,
-        auth: {
-          user: process.env.SMTP_USER,
-          pass: 'Drova1764'
-        },
-      }
+      ...config
     );
     const result = await transport.sendMail({
       from: subject,
