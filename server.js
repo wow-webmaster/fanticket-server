@@ -30,7 +30,7 @@ const assetFolder = path.resolve(__dirname, './build/');
 app.use('/uploads', express.static('uploads'));
 app.use('/avatar', express.static('uploads/avatar'));
 app.use('/ticket', express.static('uploads/ticket'));
-app.use('/event', express.static('uploads/event'));
+app.use('/events', express.static('uploads/events'));
 
 // Passport middleware
 app.use(passport.initialize());

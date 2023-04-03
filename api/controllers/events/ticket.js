@@ -7,11 +7,30 @@ const {
   saveTicketNoteQuery,
   saveTicketPriceQuery,
   finializeTicketQuery,
+  getTicketDetailQuery,
 } = require("../../../database/queries/ticketQuery");
+const {
+  getTicketOwnerInformation,
+} = require("../../../database/queries/userQuery");
 const { i18n } = require("../../../i18n");
 const ResponseData = require("../../../util/ResponseData");
 const { loadPdfFile } = require("../../../util/TicketPdfParser");
 
+const getTicketDetail = async (req, res) => {
+  try {
+    const result = await getTicketDetailQuery({ ticketId: req.params.ticketId });
+    let uploader = null;
+    if (result.success && result.ticket) {
+      uploader = await getTicketOwnerInformation({
+        uploader: result.ticket.uploader,
+      });
+    }
+
+    return ResponseData.ok(res, "", { ticket: result.ticket, uploader });
+  } catch (err) {
+    return ResponseData.error(res, i18n(res.language, "error.db"), err);
+  }
+};
 const saveTicketFile = async (req, res) => {
   try {
   } catch (err) {}
@@ -116,16 +135,15 @@ const saveTicketPrice = async (req, res) => {
     return ResponseData.error(res, i18n(req.language, "error.db"), err);
   }
 };
-const finializeTicket = async(req,res)=>{
-  try{
-    await finializeTicketQuery({ticketId:req.body.ticketId});
+const finializeTicket = async (req, res) => {
+  try {
+    await finializeTicketQuery({ ticketId: req.body.ticketId });
 
-    return ResponseData.ok(res,"");
+    return ResponseData.ok(res, "");
+  } catch (err) {
+    return ResponseData.error(res, i18n(req.language, "error.db"), err);
   }
-  catch(err){
-    return ResponseData.error(res, i18n(req.language, "error.db"),err);
-  }
-}
+};
 const saveTicketEvent = async (req, res) => {
   try {
     const { eventId, typeId, dateTime } = req.body;
@@ -167,5 +185,6 @@ module.exports = {
   saveTicketPrice,
   uploadTicketAvatar,
   resetTicket,
-  finializeTicket
+  finializeTicket,
+  getTicketDetail
 };

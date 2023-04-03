@@ -54,7 +54,9 @@
     "more": "Mais",
     "select_event": "Escolha um evento",
     "select_event_type": "Que tipo de bilhetes você tem?",
-    "seat": "assento"
+    "seat": "assento",
+    "origin_price":"Preço de origem",
+    "uploaded_file":"Arquivo carregado?"
   },
   "description": {
     "change_email": "Para alterar seu e-mail, enviaremos um e-mail de confirmação para verificar seu endereço de e-mail.",
@@ -76,7 +78,9 @@
     "origin_price": "O preço original era {{price}}",
     "select_event": "Para qual evento você quer vender ingressos, {{fullName}}?",
     "select_event_type": "Lembre-se de que você só pode vender ingressos para um tipo por vez. Se você tiver vários tipos de ingressos, precisará criar uma listagem separada para cada um deles.",
-    "reset_confirm":"Deseja redefinir a operação atual? Se você prosseguir com esta operação, os dados salvos serão apagados do banco de dados.Está tudo bem?"
+    "reset_confirm":"Deseja redefinir a operação atual? Se você prosseguir com esta operação, os dados salvos serão apagados do banco de dados.Está tudo bem?",
+    "no_data":"Não há dados para exibir.",
+    "sold_ticket":"Vendeu {{count}} ingressos"
   },
   "action": {
     "ads_manage": "Gerencie seu anúncio",

@@ -1,10 +1,10 @@
+const { addNewTicket } = require("../../../database/queries/ticketQuery");
 const {
   addEventQuery,
   getAvailableEvents,
   addNewEventTypeQuery,
+  getEventDetailQuery,
 } = require("../../../database/queries/eventQuery");
-
-const { addNewTicket } = require("../../../database/queries/ticketQuery");
 const { i18n } = require("../../../i18n");
 const ResponseData = require("../../../util/ResponseData");
 
@@ -31,7 +31,19 @@ const getAllEvents = async (req, res) => {
     return ResponseData.error(res, i18n(req.language, "error.db"), err);
   }
 };
-
+const getEventDetail = async (req, res) => {
+  try {
+    const events = await getEventDetailQuery({ eventId: req.params.eventId });
+    if (events != null && events.length > 0) {
+      const event = events[0];
+      return ResponseData.ok(res, "", event);
+    }
+    return ResponseData.ok(res, "", null);
+  } catch (err) {
+    console.log(err);
+    return ResponseData.error(res, i18n(req.language, "error.db"), err);
+  }
+};
 const addNewEventType = async (req, res) => {
   try {
     const { id, name, price, dateTime } = req.body;
@@ -56,4 +68,5 @@ module.exports = {
   addEvent,
   getAllEvents,
   addNewEventType,
+  getEventDetail,
 };

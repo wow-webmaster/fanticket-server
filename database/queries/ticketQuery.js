@@ -76,6 +76,35 @@ const getSavedTicketQuery = async ({ uploader }) => {
     return { success: false, err };
   }
 };
+
+const getTicketDetailQuery = async({ticketId})=>{
+  try {
+    const ticket = await TicketModel.aggregate([
+      {
+        $lookup: {
+          from: "events",
+          localField: "eventId",
+          foreignField: "_id",
+          as: "event",
+        },
+      },
+      {
+        $unwind: "$event",
+      },
+      {
+        $match: {
+          _id:mongoose.Types.ObjectId(ticketId)
+        },
+      },
+    ]);
+    if (ticket && ticket.length > 0)
+      return { success: true, ticket: ticket[0] };
+    else return { success: true, ticket: null };
+  } catch (err) {
+    console.log(err);
+    return { success: false, err };
+  }
+}
 const getTicketByIdQuery = async (id) => {
   return await TicketModel.findById(id);
 };
@@ -96,5 +125,6 @@ module.exports = {
   getTicketByIdQuery,
   saveTicketNoteQuery,
   saveTicketPriceQuery,
-  finializeTicketQuery
+  finializeTicketQuery,
+  getTicketDetailQuery
 };

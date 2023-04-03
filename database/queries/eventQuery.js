@@ -10,7 +10,24 @@ const addEventQuery = async (data) => {
     return null;
   }
 };
-
+const getEventDetailQuery = async ({ eventId }) => {
+  try {
+    const events = await EventModel.aggregate([
+      {
+        $lookup: {
+          from: "tickets",
+          localField: "_id",
+          foreignField: "eventId",
+          as: "tickets",
+        },
+      },
+      { $match: { _id: mongoose.Types.ObjectId(eventId) } },
+    ]);
+    return events;
+  } catch (err) {
+    throw Error(err);
+  }
+};
 const searchAvailableEvents = async () => {
   try {
     const events = await EventModel.aggregate([
@@ -73,7 +90,7 @@ const addNewEventTypeQuery = async (id, newEventType) => {
       },
       { new: true }
     );
-    
+
     return event;
   } catch (err) {
     console.log(err);
@@ -84,4 +101,5 @@ module.exports = {
   addEventQuery,
   getAvailableEvents,
   addNewEventTypeQuery,
+  getEventDetailQuery
 };

@@ -64,6 +64,7 @@ router.post(
   ticketController.resetTicket
 );
 
+router.get("/detail/:ticketId", languageMiddleware, authenticate, ticketController.getTicketDetail);
 router.post("/finalize", languageMiddleware, authenticate, ticketController.finializeTicket);
 
 module.exports = router;

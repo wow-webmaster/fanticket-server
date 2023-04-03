@@ -34,7 +34,7 @@ const ticketAvatarStorage = multer.diskStorage({
 });
 const eventStorage = multer.diskStorage({
     // Destination to store image
-    destination: "./uploads/event",
+    destination: "./uploads/events",
     filename: (req, file, cb) => {
         cb(
             null,

@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const EventSchema = new mongoose.Schema({
   cover: {
     type: String,
-    default: "uploads/event/default-cover.jpg",
+    default: "uploads/events/default-cover.jpg",
   },
   status: {
     type: String,
