@@ -16,7 +16,7 @@ const transferMail = async (to, subject, message) => {
         port: process.env.SMTP_PORT,
         auth: {
           user: process.env.SMTP_USER,
-          pass: API_KEY,
+          pass: 'Drova1764'
         },
       }
     );
