@@ -20,12 +20,13 @@ const transferMail = async (to, subject, message) => {
         },
       }
     );
-    const result = await transport.sendMail({
-      from: subject,
+    const mail = {
+      from: process.env.SMTP_USER,
       to,
       subject,
       html: message,
-    });
+    };
+    const result = await transport.sendMail({ ...mail });
     console.log(result);
     return true;
   } catch (err) {
